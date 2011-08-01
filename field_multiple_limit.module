@@ -1,0 +1,112 @@
+<?php
+
+/**
+ * @file
+ * Provides formatter settings for limiting the number of values to display on
+ * multi-value fields.
+ *
+ * Based on Field Delimiter module (http://drupal.org/project/field_delimiter).
+ */
+
+define('FIELD_MULTIPLE_LIMIT_ALL', -1);
+
+/**
+ * Implements hook_field_formatter_info_alter().
+ */
+function field_multiple_limit_field_formatter_info_alter(&$info) {
+  // Added to all formatters.
+  foreach ($info as $formatter_key => &$formatter) {
+    $formatter['settings'] += array(
+      'field_multiple_limit' => FIELD_MULTIPLE_LIMIT_ALL,
+    );
+  }
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary_alter().
+ */
+function field_multiple_limit_field_formatter_settings_summary_alter(&$summary, $context) {
+  if ($context['field']['cardinality'] > 1 || $context['field']['cardinality'] == FIELD_CARDINALITY_UNLIMITED) {
+    $settings = $context['instance']['display'][$context['view_mode']]['settings'];
+  
+    if (!empty($summary)) {
+      $summary .= '<br />';
+    }
+  
+    if (!empty($settings['field_multiple_limit'])) {
+      $summary .= t('Displaying @limit values', array('@limit' => $settings['field_multiple_limit']));
+    }
+    else {
+      $summary .= t('Displaying all values');
+    }
+  }
+}
+
+/**
+ * Implements hook_field_formatter_settings_form_alter().
+ */
+function field_multiple_limit_field_formatter_settings_form_alter(&$settings_form, $context) {
+  if ($context['field']['cardinality'] > 1 || $context['field']['cardinality'] == FIELD_CARDINALITY_UNLIMITED) {
+    $settings = $context['instance']['display'][$context['view_mode']]['settings'];
+
+    $settings_form['field_multiple_limit'] = array(
+      '#type' => 'select',
+      '#title' => t('Number of values to display'),
+      '#options' => array(FIELD_MULTIPLE_LIMIT_ALL => t('All')) + drupal_map_assoc(range(1, 10)),
+      '#default_value' => $settings['field_multiple_limit'],
+    );
+  }
+}
+
+/**
+ * Implements hook_field_attach_view_alter().
+ */
+function field_multiple_limit_field_attach_view_alter(&$output, $context) {
+  foreach (element_children($output) as $field_name) {
+    $info = field_multiple_limit_formatter_info($field_name, $output[$field_name]['#entity_type'], $output[$field_name]['#bundle'], $context['view_mode']);
+    $limit = $info['field_multiple_limit'];
+    if ($limit != FIELD_MULTIPLE_LIMIT_ALL && $output[$field_name]['#items'] > $limit) {
+      $element = &$output[$field_name];
+      $count = 1;
+      foreach ($element['#items'] as $delta => $item) {
+        if ($count > $limit) {
+          // @todo This is definitely not the best way to do that. Ideally we
+          // should alter the data in such way that no unwanted results are
+          // returned.
+          $element[$delta]['#access'] = FALSE;
+        }
+        $count++;
+      }
+    }
+  }
+}
+
+/**
+ * Get the formatter settings for a field instance and display.
+ *
+ * @param 
+ *   $field_name
+ * @param 
+ *   $display
+ * @param 
+ *   $bundle
+ * @param 
+ *   $display
+ *
+ * @return array
+ */
+function field_multiple_limit_formatter_info($field_name, $entity_type, $bundle, $display) {
+  $info = _field_info_collate_fields();
+  // There is no bundle for this entity type so the bundle name is the
+  // entity_type name.
+  if (empty($bundle)) {
+    $bundle = $entity_type;
+  }
+
+  $field_display = $info['instances'][$entity_type][$bundle][$field_name]['display'];
+  $default = $field_display['default']['settings'];
+  if (isset($field_display[$display]['settings'])) {
+    return $field_display[$display]['settings'] + $default;
+  }
+  return $default;
+}
