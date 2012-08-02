@@ -31,7 +31,7 @@ function field_multiple_limit_field_formatter_settings_summary_alter(&$summary, 
       $summary .= '<br />';
     }
   
-    if (!empty($settings['field_multiple_limit'])) {
+    if (!empty($settings['field_multiple_limit']) && $settings['field_multiple_limit'] != FIELD_MULTIPLE_LIMIT_ALL) {
       $summary .= t('Displaying @limit values', array('@limit' => $settings['field_multiple_limit']));
     }
     else {
