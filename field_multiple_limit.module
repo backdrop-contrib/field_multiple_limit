@@ -64,7 +64,7 @@ function field_multiple_limit_field_formatter_settings_form_alter(&$settings_for
 function field_multiple_limit_field_attach_view_alter(&$output, $context) {
   foreach (element_children($output) as $field_name) {
     $info = field_multiple_limit_formatter_info($field_name, $output[$field_name]['#entity_type'], $output[$field_name]['#bundle'], $context['view_mode']);
-    $limit = $info['field_multiple_limit'];
+    $limit = empty($info['field_multiple_limit']) ? FIELD_MULTIPLE_LIMIT_ALL : $info['field_multiple_limit'];
     if ($limit != FIELD_MULTIPLE_LIMIT_ALL && $output[$field_name]['#items'] > $limit) {
       $element = &$output[$field_name];
       $count = 1;
