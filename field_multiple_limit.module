@@ -17,6 +17,7 @@ function field_multiple_limit_field_formatter_info_alter(&$info) {
   // Added to all formatters.
   foreach ($info as $formatter_key => &$formatter) {
     $formatter['settings']['field_multiple_limit'] = FIELD_MULTIPLE_LIMIT_ALL;
+    $formatter['settings']['field_multiple_limit_offset'] = 0;
   }
 }
 
@@ -37,6 +38,10 @@ function field_multiple_limit_field_formatter_settings_summary_alter(&$summary, 
     else {
       $summary .= t('Displaying all values');
     }
+
+    if (!empty($settings['field_multiple_limit_offset'])) {
+      $summary .= '<br />' . t('Skipping the first @offset values', array('@offset' => $settings['field_multiple_limit_offset']));
+    }
   }
 }
 
@@ -53,6 +58,13 @@ function field_multiple_limit_field_formatter_settings_form_alter(&$settings_for
       '#options' => array(FIELD_MULTIPLE_LIMIT_ALL => t('All')) + drupal_map_assoc(range(1, 10)),
       '#default_value' => $settings['field_multiple_limit'],
     );
+
+    $settings_form['field_multiple_limit_offset'] = array(
+      '#type' => 'select',
+      '#title' => t('Number of values to skip'),
+      '#options' => drupal_map_assoc(range(0, 10)),
+      '#default_value' => $settings['field_multiple_limit_offset'],
+    );
   }
 }
 
@@ -63,11 +75,16 @@ function field_multiple_limit_field_attach_view_alter(&$output, $context) {
   foreach (element_children($output) as $field_name) {
     $info = field_multiple_limit_formatter_info($field_name, $output[$field_name]['#entity_type'], $output[$field_name]['#bundle'], $context['view_mode']);
     $limit = empty($info['field_multiple_limit']) ? FIELD_MULTIPLE_LIMIT_ALL : $info['field_multiple_limit'];
-    if ($limit != FIELD_MULTIPLE_LIMIT_ALL && $output[$field_name]['#items'] > $limit) {
+    $offset = empty($info['field_multiple_limit_offset']) ? 0 : $info['field_multiple_limit_offset'];
+    if ($offset > 0 || ($limit != FIELD_MULTIPLE_LIMIT_ALL && $output[$field_name]['#items'] > $limit)) {
       $element = &$output[$field_name];
       $count = 1;
       foreach ($element['#items'] as $delta => $item) {
-        if ($count > $limit) {
+        if ($delta < $offset) {
+          $element[$delta]['#access'] = FALSE;
+          continue;
+        }
+        if ($limit != FIELD_MULTIPLE_LIMIT_ALL && $count > $limit) {
           // @todo This is definitely not the best way to do that. Ideally we
           // should alter the data in such way that no unwanted results are
           // returned.
