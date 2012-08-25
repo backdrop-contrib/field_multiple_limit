@@ -99,14 +99,10 @@ function field_multiple_limit_field_attach_view_alter(&$output, $context) {
 /**
  * Get the formatter settings for a field instance and display.
  *
- * @param 
- *   $field_name
- * @param 
- *   $display
- * @param 
- *   $bundle
- * @param 
- *   $display
+ * @param string $field_name
+ * @param string $entity_type
+ * @param string $bundle
+ * @param string $display
  *
  * @return array
  */
