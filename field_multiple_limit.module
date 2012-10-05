@@ -73,9 +73,15 @@ function field_multiple_limit_field_formatter_settings_form_alter(&$settings_for
  */
 function field_multiple_limit_field_attach_view_alter(&$output, $context) {
   foreach (element_children($output) as $field_name) {
-    $info = field_multiple_limit_formatter_info($field_name, $output[$field_name]['#entity_type'], $output[$field_name]['#bundle'], $context['view_mode']);
+
+    $entity_type = $output[$field_name]['#entity_type'];
+    $bundle      = $output[$field_name]['#bundle'];
+
+    $info = field_formatter_settings_get_instance_display_settings($entity_type, $field_name, $bundle, $context['view_mode']);
+
     $limit = empty($info['field_multiple_limit']) ? FIELD_MULTIPLE_LIMIT_ALL : $info['field_multiple_limit'];
     $offset = empty($info['field_multiple_limit_offset']) ? 0 : $info['field_multiple_limit_offset'];
+
     if ($offset > 0 || ($limit != FIELD_MULTIPLE_LIMIT_ALL && $output[$field_name]['#items'] > $limit)) {
       $element = &$output[$field_name];
       $count = 1;
@@ -94,30 +100,4 @@ function field_multiple_limit_field_attach_view_alter(&$output, $context) {
       }
     }
   }
-}
-
-/**
- * Get the formatter settings for a field instance and display.
- *
- * @param string $field_name
- * @param string $entity_type
- * @param string $bundle
- * @param string $display
- *
- * @return array
- */
-function field_multiple_limit_formatter_info($field_name, $entity_type, $bundle, $display) {
-  $info = _field_info_collate_fields();
-  // There is no bundle for this entity type so the bundle name is the
-  // entity_type name.
-  if (empty($bundle)) {
-    $bundle = $entity_type;
-  }
-
-  $field_display = $info['instances'][$entity_type][$bundle][$field_name]['display'];
-  $default = $field_display['default']['settings'];
-  if (isset($field_display[$display]['settings'])) {
-    return $field_display[$display]['settings'] + $default;
-  }
-  return $default;
 }
