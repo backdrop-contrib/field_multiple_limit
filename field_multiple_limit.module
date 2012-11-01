@@ -76,8 +76,9 @@ function field_multiple_limit_field_attach_view_alter(&$output, $context) {
 
     $entity_type = $output[$field_name]['#entity_type'];
     $bundle      = $output[$field_name]['#bundle'];
+    $view_mode   = $output[$field_name]['#view_mode'];
 
-    $info = field_formatter_settings_get_instance_display_settings($entity_type, $field_name, $bundle, $context['view_mode']);
+    $info = field_formatter_settings_get_instance_display_settings($entity_type, $field_name, $bundle, $view_mode);
 
     $limit = empty($info['field_multiple_limit']) ? FIELD_MULTIPLE_LIMIT_ALL : $info['field_multiple_limit'];
     $offset = empty($info['field_multiple_limit_offset']) ? 0 : $info['field_multiple_limit_offset'];
