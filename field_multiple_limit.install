@@ -28,11 +28,11 @@ function field_multiple_limit_uninstall() {
 
         // remove the display settings provided by this module
         foreach ($instance['display'] as &$display) {
-          if (isset($display['settings']['field_muliple_limit'])) {
-            unset($display['settings']['field_muliple_limit']);
+          if (isset($display['settings']['field_multiple_limit'])) {
+            unset($display['settings']['field_multiple_limit']);
           }
-          if (isset($display['settings']['field_muliple_limit_offset'])) {
-            unset($display['settings']['field_muliple_limit_offset']);
+          if (isset($display['settings']['field_multiple_limit_offset'])) {
+            unset($display['settings']['field_multiple_limit_offset']);
           }
         }
 
@@ -67,11 +67,11 @@ function field_multiple_limit_uninstall() {
       if (isset($display_options['fields'])) {
         foreach ($display_options['fields'] as &$field) {
           $settings = &$field['settings'];
-          if (isset($settings['field_muliple_limit'])) {
-            unset($settings['field_muliple_limit']);
+          if (isset($settings['field_multiple_limit'])) {
+            unset($settings['field_multiple_limit']);
           }
-          if (isset($settings['field_muliple_limit_offset'])) {
-            unset($settings['field_muliple_limit_offset']);
+          if (isset($settings['field_multiple_limit_offset'])) {
+            unset($settings['field_multiple_limit_offset']);
           }
         }
       }
