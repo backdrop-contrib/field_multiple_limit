@@ -4,5 +4,3 @@ core = 7.x
 package = Fields
 
 dependencies[] = field_formatter_settings
-
-files[] = field_multiple_limit.module
