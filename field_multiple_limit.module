@@ -88,14 +88,11 @@ function field_multiple_limit_field_attach_view_alter(&$output, $context) {
       $count = 1;
       foreach ($element['#items'] as $delta => $item) {
         if ($delta < $offset) {
-          $element[$delta]['#access'] = FALSE;
+          unset($element[$delta]);
           continue;
         }
         if ($limit != FIELD_MULTIPLE_LIMIT_ALL && $count > $limit) {
-          // @todo This is definitely not the best way to do that. Ideally we
-          // should alter the data in such way that no unwanted results are
-          // returned.
-          $element[$delta]['#access'] = FALSE;
+          unset($element[$delta]);
         }
         $count++;
       }
