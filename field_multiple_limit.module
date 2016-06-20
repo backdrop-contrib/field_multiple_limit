@@ -55,14 +55,14 @@ function field_multiple_limit_field_formatter_settings_form_alter(&$settings_for
     $settings_form['field_multiple_limit'] = array(
       '#type' => 'select',
       '#title' => t('Number of values to display'),
-      '#options' => array(FIELD_MULTIPLE_LIMIT_ALL => t('All')) + drupal_map_assoc(range(1, 10)),
+      '#options' => array(FIELD_MULTIPLE_LIMIT_ALL => t('All')) + backdrop_map_assoc(range(1, 10)),
       '#default_value' => $settings['field_multiple_limit'],
     );
 
     $settings_form['field_multiple_limit_offset'] = array(
       '#type' => 'select',
       '#title' => t('Number of values to skip'),
-      '#options' => drupal_map_assoc(range(0, 10)),
+      '#options' => backdrop_map_assoc(range(0, 10)),
       '#default_value' => $settings['field_multiple_limit_offset'],
     );
   }
