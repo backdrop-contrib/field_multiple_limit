@@ -9,7 +9,7 @@ values. Site administrators can specify how many values to display for each
 display mode (e.g. teaser). Optionally, an off-set can be specified to skip 
 some values. 
 
-![Field Multiple Limit](images/field_multiple_limit.jpg "Field Multiple Limit example")
+![Field Multiple Limit](https://github.com/backdrop-contrib/field_multiple_limit/blob/1.x-1.x/images/field_multiple_limit.jpg "Field Multiple Limit example")
 
 ##Installation
 
@@ -34,5 +34,5 @@ https://github.com/backdrop-contrib/field_multiple_limit/issues
 
 ##License
 
-This project is GPL v2 software. See the [LICENSE.txt](LICENSE.txt) file in this directory for
+This project is GPL v2 software. See the [LICENSE.txt](https://github.com/backdrop-contrib/field_multiple_limit/blob/1.x-1.x/LICENSE.txt) file in this directory for
 complete text.
