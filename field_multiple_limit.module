@@ -25,7 +25,7 @@ function field_multiple_limit_field_formatter_info_alter(&$info) {
  * Implements hook_field_formatter_settings_summary_alter().
  */
 function field_multiple_limit_field_formatter_settings_summary_alter(&$summary, $context) {
-  if ($context['field']['cardinality'] > 1 || $context['field']['cardinality'] == FIELD_CARDINALITY_UNLIMITED) {
+  if (!empty($context['field']['cardinality']) && ($context['field']['cardinality'] > 1 || $context['field']['cardinality'] == FIELD_CARDINALITY_UNLIMITED)) {
     $settings = $context['instance']['display'][$context['view_mode']]['settings'];
 
     if (!empty($summary)) {
@@ -49,7 +49,7 @@ function field_multiple_limit_field_formatter_settings_summary_alter(&$summary, 
  * Implements hook_field_formatter_settings_form_alter().
  */
 function field_multiple_limit_field_formatter_settings_form_alter(&$settings_form, $context) {
-  if ($context['field']['cardinality'] > 1 || $context['field']['cardinality'] == FIELD_CARDINALITY_UNLIMITED) {
+  if (!empty($context['field']['cardinality']) && ($context['field']['cardinality'] > 1 || $context['field']['cardinality'] == FIELD_CARDINALITY_UNLIMITED)) {
     $settings = $context['instance']['display'][$context['view_mode']]['settings'];
 
     $settings_form['field_multiple_limit'] = array(
