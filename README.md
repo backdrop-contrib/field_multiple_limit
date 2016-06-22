@@ -15,22 +15,23 @@ some values.
 
 - Install this module using the official Backdrop CMS instructions at
   https://backdropcms.org/guide/modules
-- This module depends on the [Field Formatter Settings module](https://github.com/backdrop-contrib/field_formatter_settings), 
+- This module depends on the 
+  [Field Formatter Settings module](https://github.com/backdrop-contrib/field_formatter_settings), 
   so install that first.
 
 ##Issues
 
-Bugs and Feature requests should be reported in the Issue Queue:
-https://github.com/backdrop-contrib/field_multiple_limit/issues
+Bugs and Feature requests should be reported in the 
+[Issue Queue](https://github.com/backdrop-contrib/field_multiple_limit/issues)
 
 ##Current Maintainers
 
-- Laryn Kragt Bakker - CEDC.org (https://github.com/laryn/)
+- [Laryn Kragt Bakker](https://github.com/laryn) - [CEDC.org](https://cedc.org)
 
 ##Credits
 
-- Ported to Backdrop CMS by Laryn Kragt Bakker - CEDC.org (https://github.com/laryn/).
-- Maintained for Drupal by Andrew Macpherson (https://github.com/fuzzbomb).
+- Ported to Backdrop CMS by [Laryn Kragt Bakker](https://github.com/laryn) - [CEDC.org](https://cedc.org).
+- Maintained for Drupal by [Andrew Macpherson](https://github.com/fuzzbomb).
 
 ##License
 
