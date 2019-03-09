@@ -53,7 +53,7 @@ function field_multiple_limit_field_formatter_settings_form_alter(&$settings_for
   // supports setting values to display, and also offset (via the "Multiple
   // field settings" fieldset).
   if ($context['instance']['entity_type'] != 'views') {
-    if (!empty($context['field']['cardinality']) && ($context['field']['cardinality'] > 1 || $context['field']['cardinality'] ==   FIELD_CARDINALITY_UNLIMITED)) {
+    if (!empty($context['field']['cardinality']) && ($context['field']['cardinality'] > 1 || $context['field']['cardinality'] == FIELD_CARDINALITY_UNLIMITED)) {
       $settings = $context['instance']['display'][$context['view_mode']]['settings'];
   
       $settings_form['field_multiple_limit'] = array(
