@@ -4,4 +4,4 @@ backdrop = 1.x
 type = module
 package = Fields
 
-dependencies[] = field_formatter_settings
+dependencies[] = system (>=1.13.0)
