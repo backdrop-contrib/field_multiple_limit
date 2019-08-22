@@ -15,9 +15,6 @@ some values.
 
 - Install this module using the official Backdrop CMS instructions at
   https://backdropcms.org/guide/modules
-- This module depends on the 
-  [Field Formatter Settings module](https://github.com/backdrop-contrib/field_formatter_settings), 
-  so install that first.
 
 ## Issues
 

@@ -72,3 +72,35 @@ function field_multiple_limit_field_formatter_settings_form_alter(&$settings_for
     }
   }
 }
+
+/**
+ * Implements hook_field_attach_view_alter().
+ */
+function field_multiple_limit_field_attach_view_alter(&$output, $context) {
+  foreach (element_children($output) as $field_name) {
+
+    $entity_type = $output[$field_name]['#entity_type'];
+    $bundle      = $output[$field_name]['#bundle'];
+    $view_mode   = $output[$field_name]['#view_mode'];
+
+    $info = field_formatter_settings_get_instance_display_settings($entity_type, $field_name, $bundle, $view_mode);
+
+    $limit = empty($info['field_multiple_limit']) ? FIELD_MULTIPLE_LIMIT_ALL : $info['field_multiple_limit'];
+    $offset = empty($info['field_multiple_limit_offset']) ? 0 : $info['field_multiple_limit_offset'];
+
+    if ($offset > 0 || ($limit != FIELD_MULTIPLE_LIMIT_ALL && $output[$field_name]['#items'] > $limit)) {
+      $element = &$output[$field_name];
+      $count = 1;
+      foreach ($element['#items'] as $delta => $item) {
+        if ($delta < $offset) {
+          unset($element[$delta]);
+          continue;
+        }
+        if ($limit != FIELD_MULTIPLE_LIMIT_ALL && $count > $limit) {
+          unset($element[$delta]);
+        }
+        $count++;
+      }
+    }
+  }
+}
